@@ -22,7 +22,6 @@ export default {
         reward : Number,
         dateLimite : String
     },
-
 };
 </script>
 

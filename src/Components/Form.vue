@@ -1,13 +1,19 @@
 <template>
     <div class = "add-quest">
-      <form>
-        <input type="text" placeholder="Nom de la quête"  @input="onInputName"/>
-        <input type="text" placeholder="Description de la quête" @input="onInputDesc"/>
-        <input type="number" placeholder="Niveau de difficulté" @input="onInputDifficulty"/>
-        <input type="number" placeholder="Récompense en XP" @input="onInputReward"/>
-        <input type="date" placeholder="Date limite" @input="onInputDateLimite"/>
-        <button type="submit" @click="$emit('add-card', quest)">Ajouter une quête</button>
-      </form>
+        <h2>Ajouter une nouvelle quête</h2>
+        <form>
+            <input type="text" placeholder="Nom de la quête"  v-model="name"/>
+            <br>
+            <input type="text" placeholder="Description de la quête" v-model="desc"/>
+            <br>
+            <input type="number" placeholder="Niveau de difficulté" v-model="difficulty"/>
+            <br>
+            <input type="number" placeholder="Récompense en XP" v-model="reward"/>
+            <br>
+            <input type="date" placeholder="Date limite" v-model="dateLimite"/>
+            <br>
+            <button type="submit" @click="$emit('add-card', {id: 0, name: this.name, desc: this.desc, difficulty: this.difficulty, reward: this.reward, status: 'Disponible', dateLimite: this.dateLimite })">Ajouter une quête</button>
+        </form>
     </div>
 </template>
 
@@ -22,24 +28,6 @@ export default {
             reward: null,
             dateLimite: null
         }
-    },
-    methods:{
-        // Méthodes pour gérer les entrées du formulaire
-        onInputName(value) {
-        this.name = value;
-        },
-        onInputDesc(value) {
-        this.desc = value;
-        },
-        onInputDifficulty(value) {
-        this.difficulty = value;
-        },
-        onInputReward(value) {
-        this.reward = value;
-        },
-        onInputDateLimite(value) {
-        this.dateLimite = value;
-        },
     }
 }
 </script>

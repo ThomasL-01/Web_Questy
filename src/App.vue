@@ -1,7 +1,6 @@
 <template>
   <header>
     <title>Questy - Page principale</title>
-
   </header>
   <body>
     <div class="header">
@@ -12,8 +11,8 @@
       <table>
         <td>
           <!-- pour l'instant affiche toutes les quêtes, il faudra filtrer en fonction du status de la quête-->
-          <Column title="Disponible"> 
-            <Card v-for="quest in quests" :key="quest.id"
+          <Column title="Disponibles"> 
+            <Card v-for="quest in quests.filter(q => q.status === 'Disponible')" :key="quest.id"
               :id="quest.id"
               :name="quest.name"
               :desc="quest.desc"
@@ -27,7 +26,7 @@
         </td>
         <td>
           <Column title="En cours">
-            <Card v-for="quest in quests" :key="quest.id" 
+            <Card v-for="quest in quests.filter(q => q.status === 'En cours')" :key="quest.id"
               :id="quest.id"
               :name="quest.name"
               :desc="quest.desc"
@@ -40,8 +39,8 @@
           </Column>
         </td>
         <td>
-          <Column title="Terminée">
-            <Card v-for="quest in quests" :key="quest.id"
+          <Column title="Terminées">
+            <Card v-for="quest in quests.filter(q => q.status === 'Terminée')" :key="quest.id"
               :id="quest.id"
               :name="quest.name"
               :desc="quest.desc"
@@ -54,8 +53,8 @@
           </Column>
         </td>
         <td>
-          <Column title="Échouée">
-            <Card v-for="quest in quests" :key="quest.id"
+          <Column title="Échouées">
+            <Card v-for="quest in quests.filter(q => q.status === 'Échouée')" :key="quest.id"
               :id="quest.id"
               :name="quest.name"
               :desc="quest.desc"
@@ -70,11 +69,11 @@
       </table>
     </Board>
 
-    <Form @add-card="addQuest"/>
+    <Form @add-card="(quest) => addQuest(quest)"/>
 
-    <div class = "footer">
+    <footer>
       <p>© 2026 Questy. Tous droits réservés. (askip)</p>
-    </div>
+    </footer>
   </body>
 
 </template>
@@ -86,6 +85,7 @@ import Board from './Components/Board.vue';
 import Form from './Components/Form.vue';
 
 export default {
+
   components: {
     Card,
     Column,
@@ -95,20 +95,32 @@ export default {
   data () {
     const savedQuests = localStorage.getItem('quests');
     if (savedQuests) {
+      const quests = JSON.parse(savedQuests);
+      console.log("Parsed quests: ", quests);
+      if (quests.length === 0) {
+        quests = [{id: 0, name: "Commencez votre aventure", desc: "Ceci est une quête d'exemple pour démontrer les fonctionnalités de l'application.", difficulty: 3, reward: 100, status: "Disponible", dateLimite: new Date().toISOString().split('T')[0]}];
+      }
       return {
-        quests: JSON.parse(savedQuests)
+        quests: quests
       };
     } else {
       return {
-        quests: []
+        quests: [{id: 0, name: "Commencez votre aventure", desc: "Ceci est une quête d'exemple pour démontrer les fonctionnalités de l'application.", difficulty: 3, reward: 100, status: "Disponible", dateLimite: new Date().toISOString().split('T')[0]}]
       };
     }
   },
   methods:{
-    addQuest(quest) {
+    addQuest(quest) { // quest est un dictionnaire avec les propriétés de la quête
+      if (this.quests.length >= 1) {
+        quest.id = this.quests[this.quests.length - 1].id + 1;
+      }
       this.quests.push(quest);
       localStorage.setItem('quests', JSON.stringify(this.quests));
     },
+    deleteCard(id) {
+      this.quests = this.quests.filter(quest => quest.id !== id);
+      localStorage.setItem('quests', JSON.stringify(this.quests));
+    }
   }
 }
 </script>
