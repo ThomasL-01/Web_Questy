@@ -1,23 +1,17 @@
-# TP1
+# TP1 - Questy
 
-This template should help get you started developing with Vue 3 in Vite.
+## Questy, c'est quoi ?
 
-## Recommended IDE Setup
+Questy est une application Vue.js permettant de suivre ses tâches sous forme de quêtes, façon RPG. Chaque tâche devient une quête avec un niveau de difficulté (1 à 5 étoiles), et une date limite, organisée sur un tableau au thème pirate.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Fonctionnalités
 
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
+- Création de quêtes (nom, description, difficulté, date limite)
+- Organisation en quatre colonnes : Disponibles, En cours, Terminées, Échouées
+- Changement de statut d'une quête (Disponible → En cours → Terminée)
+- Passage automatique en Échouée des quêtes dont la date limite est dépassée
+- Suppression de quêtes
+- Persistance des données en local (`localStorage`), sans backend
 
 ## Project Setup
 
@@ -36,3 +30,21 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Structure du projet
+
+```
+src/
+├── App.vue              # Composant racine : état des quêtes, logique métier
+├── Components/
+│   ├── Board.vue         # Conteneur du tableau
+│   ├── Column.vue        # Une colonne du tableau (Disponibles, En cours, ...)
+│   ├── Card.vue          # Une carte de quête
+│   └── Form.vue          # Formulaire d'ajout de quête
+```
+
+## Technologies
+
+- Vue.js 3 (Options API)
+- `localStorage` pour la persistance des données
+- CSS thème pirate (polices Pirata One, IM Fell English, Cinzel) en grande partie fait par Claude
